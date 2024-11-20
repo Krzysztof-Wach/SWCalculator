@@ -7,7 +7,7 @@ from tkinter import *
 
 
 class App():
-    
+   
     def __init__(self) -> None:
         self.master = Tk()
         self.master.title("Savage Combat Calculator")
@@ -16,9 +16,17 @@ class App():
         teams_frame = self.createTeamsFrame(self.master)
         teams_frame.grid(column = 0, row = 0)
         
+        self.rooster_values = {}
+        
         rooster_frame = self.createRoosterFrame(self.master)
         rooster_frame.grid(row = 1)
         
+        # buttons = [('Submit', 'submit')]
+        # submit_button = self.createButton(self.master, buttons[0])
+        # submit_button.grid(column = 0, row = 3)
+        
+        submit_button = self.createSubmitButton(self.master)
+        submit_button.grid(column = 1, row = 2)
         
         quit_button = self.createQuitButton(self.master)
         quit_button.grid(column = 1, row = 3)
@@ -28,8 +36,6 @@ class App():
     
     def createTeamsFrame(self, container):
         frame = Frame(container)
-        
-        #two default teams
         
         
         for index, item in enumerate(self.teams):
@@ -50,40 +56,38 @@ class App():
     
     def createRoosterFrame(self, container):
         frame = Frame(container)
+        columns = 0
+        sources = {"creatures":Bestiary().getCreatures(), "weapons":Armory().getWeapons()}
         
-        creature_frame = self.createCreatureCheckbox(frame)
-        creature_frame.grid(row = 0, column = 0, sticky = N)
+        enum_field = Entry(frame, width=10)
+        enum_field.grid(row = 0, column = columns, sticky = N)
+        columns +=1
+        self.enum_rooster = enum_field #for setValue
         
-        weapon_frame = self.createWeaponCheckbox(frame)
-        weapon_frame.grid(row = 0, column = 1, sticky = N)
+        for name, source in sources.items():
+            item_frame = self.createRosterCheckbox(frame, (name, source))
+            item_frame.grid(row = 0, column = columns, sticky = N)
+            self.rooster_values[name] = None
+            columns +=1
         
         teams_frame = self.createTeamsCheckbox(frame)
-        teams_frame.grid(row = 0, column = 2, sticky = N)
+        teams_frame.grid(row = 0, column = columns, sticky = N)
+        self.rooster_values['teams'] = None
+        columns +=1
     
         return frame
     
-    
-    def createCreatureCheckbox(self, container):
+
+    def createRosterCheckbox(self, container, checkbox_info): #checkbox_info = (name, source = list)
         frame = Frame(container)
+        name, source = checkbox_info
         
         #creature_list = Radiobutton(frame)
-        for index, item in enumerate(Bestiary().getCreatures()):
-            button = Radiobutton(frame, text = item.__name__, value = item, variable= 'creature' , indicatoron = 0, width = 10)
+        for index, item in enumerate(source):
+            #uh oh lambda spagettioos!
+            button = Radiobutton(frame, text = item.__name__, variable= name, value = item, command = lambda name = name, item = item : self.setValue(name, item), indicatoron = 0, width = 10)
             button.grid(column = 0, row = index)
-            #creature_list.insert(index, item)
 
-        return frame
-
-    
-    def createWeaponCheckbox(self, container):
-        frame = Frame(container)
-        
-        #creature_list = Radiobutton(frame)
-        for index, item in enumerate(Armory().getWeapons()):
-            button = Radiobutton(frame, text = item.__name__, value = item, variable= 'weapon' , indicatoron = 0, width = 10)
-            button.grid(column = 0, row = index)
-            #creature_list.insert(index, item)
-        
         return frame
 
     
@@ -91,11 +95,21 @@ class App():
         frame = Frame(container)
         
         for index, item in enumerate(self.teams):
-            button = Radiobutton(frame, text = item, value = item, variable = "team", indicatoron = 0, width = 10)
+            button = Radiobutton(frame, text = item, value = item, variable = "team", command = lambda name = "teams", item = item : self.setValue(name, item), indicatoron = 0, width = 10)
             button.grid(column = 0, row = index)
 
         return frame
     
+
+    # def createButton(self, container, button_info): #button info (name, command) 
+    #     frame = Frame(container)
+    #     button_name, button_command = button_info
+        
+    #     quit_button = Button(frame, text = button_name, width=25, command = button_command)
+    #     quit_button.grid()
+        
+    #     return frame
+
     
     def createQuitButton(self, container):
         frame = Frame(container)
@@ -106,17 +120,34 @@ class App():
         return frame
 
 
-    def createQuitButton(self, container):
+    def createSubmitButton(self, container):
         frame = Frame(container)
         
-        quit_button = Button(frame, text='Quit', width=25, command=container.destroy)
+        quit_button = Button(frame, text='Submit', width=25, command = self.submit)
         quit_button.grid()
         
         return frame
+
+
+    def setValue(self, variable, value):
+        print(variable, value)
+        self.rooster_values[variable] = value
+        
+
+    def submit(self):
+        for value in self.rooster_values.values():
+            print(self.rooster_values)
+            if value is None:
+                return None
+
+        #much = self.enum_rooster.get()
+        who = self.rooster_values['creature']
+        what = self.rooster_values['weapon']
+        team = self.rooster_values['teams']
+        print(self.rooster_values)
 
 
 if __name__ == "__main__":
-    
     
     initial_creatures = [Humanoid(), Human(), Hero()]
     initial_weapons = [Sword(), Pistol(), Shotgun()]

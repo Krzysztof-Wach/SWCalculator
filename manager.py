@@ -44,7 +44,7 @@ class ArenaManager():
         return fighter
     
     
-    def assignFighters(self, quantity, fighters, weapons, team):
+    def assignFighters(self, quantity, fighters, weapons, team): #rooster
         self.addTeam(team)
         
         for unit in range(0, quantity):

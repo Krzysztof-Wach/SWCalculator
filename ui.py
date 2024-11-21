@@ -12,7 +12,10 @@ class App():
         self.master = Tk()
         self.master.title("Savage Combat Calculator")
         
-        self.teams = ['Team1', 'Team2']
+        #self.teams = ['team1', 'team2']
+        self.teams = {}
+        self.addTeam()
+        self.addTeam()
         teams_frame = self.createTeamsFrame(self.master)
         teams_frame.grid(column = 0, row = 0)
         
@@ -26,7 +29,11 @@ class App():
         # submit_button.grid(column = 0, row = 3)
         
         submit_button = self.createSubmitButton(self.master)
-        submit_button.grid(column = 1, row = 2)
+        submit_button.grid(column = 0, row = 2)
+        
+        #pack it with submit
+        remove_button = self.createRemoveButton(self.master)
+        remove_button.grid(column = 1, row = 2, sticky = W)
         
         quit_button = self.createQuitButton(self.master)
         quit_button.grid(column = 1, row = 3)
@@ -35,23 +42,29 @@ class App():
 
     
     def createTeamsFrame(self, container):
-        frame = Frame(container)
+        frame = Frame(container, name= "teams")
         
         
         for index, item in enumerate(self.teams):
             team_label = Label(frame, width= 30, text= item)
-            team_field = Entry(frame, width=50 , state= DISABLED)
+            team_field = Entry(frame, width=50 , state= DISABLED, name= str(item))
             team_label.grid(row = index, column = 0)
             team_field.grid(row = index, column = 1)
             
         return frame
     
-    
+    ### update widget
     def addTeam(self):
-        
         #need to update frame, not yet implemented
-        self.teams.append('team' + str(len(self.teams)))
+        self.teams['team'+ str(len(self.teams)+1)] = {}
+        print(self.teams)
+        self.master.update()
+        
+    
+    def removeTeam(self):
+        self.teams.remove(self.teams[-1])
         self.createTeamsFrame(self.master)
+        #print(self.teams)
     
     
     def createRoosterFrame(self, container):
@@ -59,22 +72,28 @@ class App():
         columns = 0
         sources = {"creatures":Bestiary().getCreatures(), "weapons":Armory().getWeapons()}
         
-        enum_field = Entry(frame, width=10)
+        ###number of units added to the team
+        enum_sign = Label(frame, text = 'No.')
+        enum_sign.grid(row = 0, column = columns, sticky = N)
+        columns +=1
+        enum_field = Entry(frame, width=10) #todo enter only numbers
         enum_field.grid(row = 0, column = columns, sticky = N)
         columns +=1
         self.enum_rooster = enum_field #for setValue
         
+        ###creatures, weapons
         for name, source in sources.items():
             item_frame = self.createRosterCheckbox(frame, (name, source))
             item_frame.grid(row = 0, column = columns, sticky = N)
             self.rooster_values[name] = None
             columns +=1
         
+        ###teams
         teams_frame = self.createTeamsCheckbox(frame)
         teams_frame.grid(row = 0, column = columns, sticky = N)
         self.rooster_values['teams'] = None
         columns +=1
-    
+
         return frame
     
 
@@ -93,10 +112,25 @@ class App():
     
     def createTeamsCheckbox(self, container):
         frame = Frame(container)
+        rows = 0
         
         for index, item in enumerate(self.teams):
+            rows +=1
             button = Radiobutton(frame, text = item, value = item, variable = "team", command = lambda name = "teams", item = item : self.setValue(name, item), indicatoron = 0, width = 10)
             button.grid(column = 0, row = index)
+        
+        blankframe = Label(frame, width= 10,)
+        blankframe.grid(row = rows, column= 0)
+        rows +=1
+        
+        ### disabled until redraw function works
+        teams_button = Button(frame, text='add team', width=10,background= 'lightgrey', command=self.addTeam, state= DISABLED)
+        teams_button.grid(row = rows +1 , column = 0)
+        rows +=1
+        
+        teams_button = Button(frame, text='del team', width=10, background= 'lightgrey', command=self.removeTeam, state= DISABLED)
+        teams_button.grid(row = rows +2 , column = 0)
+        rows +=1
 
         return frame
     
@@ -127,25 +161,99 @@ class App():
         quit_button.grid()
         
         return frame
+    
+    def createRemoveButton(self, container):
+        frame = Frame(container)
+        
+        quit_button = Button(frame, text='Remove', width=25, command = self.remove)
+        quit_button.grid()
+        
+        return frame
 
 
     def setValue(self, variable, value):
         print(variable, value)
         self.rooster_values[variable] = value
-        
+
 
     def submit(self):
         for value in self.rooster_values.values():
-            print(self.rooster_values)
             if value is None:
                 return None
 
-        #much = self.enum_rooster.get()
-        who = self.rooster_values['creature']
-        what = self.rooster_values['weapon']
+        much = int(self.enum_rooster.get()) #need to not allow numbers
+        
+        who = self.rooster_values['creatures']
+        what = self.rooster_values['weapons']
         team = self.rooster_values['teams']
-        print(self.rooster_values)
+        
+        ### add to Entry
+        self.addToTeam((much, who, what, team))
+        # this_team = self.master.nametowidget("teams."+team)
+        # this_team.configure(state= NORMAL)
+        # this_team.insert(0, "hello")
+        # this_team.configure(state= DISABLED)
+    def remove(self):
+        for value in self.rooster_values.values():
+            if value is None:
+                return None
 
+        much = int(self.enum_rooster.get()) #need to not allow numbers
+        
+        who = self.rooster_values['creatures']
+        what = self.rooster_values['weapons']
+        team = self.rooster_values['teams']
+        
+        ### add to Entry
+        self.removeFromTeam((much, who, what, team))
+    
+    def addToTeam(self, rooster): #(1, Hero, Sword, 'red')
+        much, who, what, team = rooster
+        current_team = self.teams[team]
+        ###add rooster to team
+        whowhat = str(who)+str(what)
+        if whowhat in current_team:
+            current_team[whowhat] = current_team[whowhat]+much
+        else:
+            current_team[whowhat] = much
+        
+        print(self.teams)
+        ###update entry with new team data
+        self.updateEntry(team)
+    
+    def removeFromTeam(self, rooster):
+        much, who, what, team = rooster
+        current_team = self.teams[team]
+        ###add rooster to team
+        whowhat = (who, what)
+        if whowhat in current_team:
+            current_team[whowhat] = current_team[whowhat]-much
+            if current_team[whowhat] <= 0:
+                
+                current_team = current_team.pop(whowhat)
+        else:
+            return None
+        
+        print(self.teams)
+    
+    def updateEntry(self, team):
+        #find entry for team
+        this_team = self.master.nametowidget("teams."+team)
+        
+        rooster = self.teams[team]
+        rooster_print = ""
+        for item, value in rooster.items(): # <----- how rooster items should be passed?
+            #teams{team : [(who, what, number)]}
+            #merge func to see if there are changes to be made
+            print(item)
+            #who, what = item
+            #rooster_print +=str(value) + 'x' + who.__name__ + what.__name__ +', '
+        
+        this_team.configure(state= NORMAL)
+        this_team.insert(0, "hello")
+        this_team.configure(state= DISABLED)
+        #print whole rooster
+        pass
 
 if __name__ == "__main__":
     

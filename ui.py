@@ -124,7 +124,7 @@ class App():
         rows +=1
         
         ### disabled until redraw function works
-        teams_button = Button(frame, text='add team', width=10,background= 'lightgrey', command=self.addTeam, state= DISABLED)
+        teams_button = Button(frame, text='add team', width=10,background= 'red', command=self.addTeam, state= DISABLED)
         teams_button.grid(row = rows +1 , column = 0)
         rows +=1
         
@@ -211,7 +211,7 @@ class App():
         much, who, what, team = rooster
         current_team = self.teams[team]
         ###add rooster to team
-        whowhat = str(who)+str(what)
+        whowhat = (who, what)
         if whowhat in current_team:
             current_team[whowhat] = current_team[whowhat]+much
         else:
@@ -245,12 +245,12 @@ class App():
         for item, value in rooster.items(): # <----- how rooster items should be passed?
             #teams{team : [(who, what, number)]}
             #merge func to see if there are changes to be made
-            print(item)
-            #who, what = item
-            #rooster_print +=str(value) + 'x' + who.__name__ + what.__name__ +', '
+            who, what = item
+            rooster_print +=str(value) + 'x' + who.__name__ + ' '+ what.__name__ +', '
         
         this_team.configure(state= NORMAL)
-        this_team.insert(0, "hello")
+        this_team.delete(0, END)
+        this_team.insert(0, rooster_print)
         this_team.configure(state= DISABLED)
         #print whole rooster
         pass

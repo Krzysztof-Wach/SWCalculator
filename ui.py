@@ -12,53 +12,96 @@ class App():
         self.master = Tk()
         self.master.title("Savage Combat Calculator")
         
+        self.rooster_values = {}
         #self.teams = ['team1', 'team2']
         self.teams = {}
-        self.addTeam()
-        self.addTeam()
-        teams_frame = self.createTeamsFrame(self.master)
-        teams_frame.grid(column = 0, row = 0)
+
+        #lineup view
+        self.teams_frame = self.createTeamsFrame(self.master)
+        self.teams_frame.grid(column = 0, row = 0)
         
-        self.rooster_values = {}
+        #lineup options
+        self.rooster_frame = self.createRoosterFrame(self.master)
+        self.rooster_frame.grid(column = 0, row = 1)
         
-        rooster_frame = self.createRoosterFrame(self.master)
-        rooster_frame.grid(row = 1)
-        
+        #add/remove from ilneup
+        self.submit_frame = self.createSubmitFrame(self.master)
+        self.submit_frame.grid(column = 1, row = 1, sticky = W)
         # buttons = [('Submit', 'submit')]
         # submit_button = self.createButton(self.master, buttons[0])
         # submit_button.grid(column = 0, row = 3)
+
+        #quit app
+        self.quit_button = self.createQuitButton(self.master)
+        self.quit_button.grid(column = 2, row = 2)
         
-        submit_button = self.createSubmitButton(self.master)
-        submit_button.grid(column = 0, row = 2)
-        
-        #pack it with submit
-        remove_button = self.createRemoveButton(self.master)
-        remove_button.grid(column = 1, row = 2, sticky = W)
-        
-        quit_button = self.createQuitButton(self.master)
-        quit_button.grid(column = 1, row = 3)
+        self.addTeam()
+        self.addTeam()
         
         self.master.mainloop()
 
-    
+
+    ###TO DO make Label expand and rooster items wrapup if needed
     def createTeamsFrame(self, container):
         frame = Frame(container, name= "teams")
-        
         
         for index, item in enumerate(self.teams):
             team_label = Label(frame, width= 30, text= item)
             team_field = Entry(frame, width=50 , state= DISABLED, name= str(item))
             team_label.grid(row = index, column = 0)
             team_field.grid(row = index, column = 1)
+        
+        frame.update()
             
         return frame
     
-    ### update widget
+    
     def addTeam(self):
         #need to update frame, not yet implemented
-        self.teams['team'+ str(len(self.teams)+1)] = {}
+        new_team = 'team'+ str(len(self.teams)+1)
+        self.teams[new_team] = {}
         print(self.teams)
-        self.master.update()
+        
+        #self.createTeamsFrame(self.master)
+        #self.createRoosterFrame(self.master)
+        self.createTeamsFrame(self.master)
+        
+        # button = Radiobutton(self.team_checkbox_frame, text = new_team, value = new_team, variable = "team", command = lambda name = "teams", item = new_team : self.setValue(name, item), indicatoron = 0, width = 10)
+        # button.grid(column = 0)
+        
+        ### teams entry fields
+        # self.teams_frame = self.createTeamsFrame(self.master)
+        # self.teams_frame.grid(column = 0)
+        # ### teams checkbox
+        # self.rooster_frame = self.createRoosterFrame(self.master)
+        # self.rooster_frame.grid(column = 0)
+        #self.master.update()
+        self.update()
+        
+        
+    def update(self):
+        #lineup view
+        self.teams_frame.destroy
+        self.teams_frame = self.createTeamsFrame(self.master)
+        self.teams_frame.grid(column = 0, row = 0)
+        
+        #lineup options
+        self.rooster_frame.destroy
+        self.rooster_frame = self.createRoosterFrame(self.master)
+        self.rooster_frame.grid(column = 0, row = 1)
+        
+        #add/remove from ilneup
+        self.submit_frame.destroy
+        self.submit_frame = self.createSubmitFrame(self.master)
+        self.submit_frame.grid(column = 1, row = 1, sticky = W)
+        # buttons = [('Submit', 'submit')]
+        # submit_button = self.createButton(self.master, buttons[0])
+        # submit_button.grid(column = 0, row = 3)
+
+        #quit app
+        self.quit_button.destroy
+        self.quit_button = self.createQuitButton(self.master)
+        self.quit_button.grid(column = 2, row = 2)
         
     
     def removeTeam(self):
@@ -68,7 +111,7 @@ class App():
     
     
     def createRoosterFrame(self, container):
-        frame = Frame(container)
+        frame = Frame(container, name = "rooster")
         columns = 0
         sources = {"creatures":Bestiary().getCreatures(), "weapons":Armory().getWeapons()}
         
@@ -85,15 +128,16 @@ class App():
         for name, source in sources.items():
             item_frame = self.createRosterCheckbox(frame, (name, source))
             item_frame.grid(row = 0, column = columns, sticky = N)
-            self.rooster_values[name] = None
+            #self.rooster_values[name] = None  ###not really necessary???
             columns +=1
         
         ###teams
         teams_frame = self.createTeamsCheckbox(frame)
         teams_frame.grid(row = 0, column = columns, sticky = N)
-        self.rooster_values['teams'] = None
+        #self.rooster_values['teams'] = None ###not really necessary???
         columns +=1
 
+        frame.update()
         return frame
     
 
@@ -111,29 +155,41 @@ class App():
 
     
     def createTeamsCheckbox(self, container):
-        frame = Frame(container)
+        self.team_checkbox_frame = Frame(container, name = "box")
         rows = 0
         
         for index, item in enumerate(self.teams):
             rows +=1
-            button = Radiobutton(frame, text = item, value = item, variable = "team", command = lambda name = "teams", item = item : self.setValue(name, item), indicatoron = 0, width = 10)
-            button.grid(column = 0, row = index)
-        
-        blankframe = Label(frame, width= 10,)
+            button = Radiobutton(self.team_checkbox_frame, text = item, value = item, variable = "team", command = lambda name = "teams", item = item : self.setValue(name, item), indicatoron = 0, width = 10)
+            button.grid(column = 0)
+            
+        blankframe = Label(self.team_checkbox_frame, width= 10)
         blankframe.grid(row = rows, column= 0)
         rows +=1
         
         ### disabled until redraw function works
-        teams_button = Button(frame, text='add team', width=10,background= 'red', command=self.addTeam, state= DISABLED)
-        teams_button.grid(row = rows +1 , column = 0)
+        teams_button = Button(self.team_checkbox_frame, text='add team', width=10,background= 'lightgrey', command=self.addTeam)
+        teams_button.grid()
         rows +=1
         
-        teams_button = Button(frame, text='del team', width=10, background= 'lightgrey', command=self.removeTeam, state= DISABLED)
-        teams_button.grid(row = rows +2 , column = 0)
+        teams_button = Button(self.team_checkbox_frame, text='del team', width=10, background= 'lightgrey', command=self.removeTeam, state= DISABLED)
+        teams_button.grid()
         rows +=1
 
-        return frame
+        return self.team_checkbox_frame
     
+    
+    def createSubmitFrame(self, container):
+        frame = Frame(container)
+        
+        submit_button = Button(frame, text='Submit', width=15, command = self.submit)
+        submit_button.grid(column = 0, row = 0)
+        
+        #pack it with submit
+        remove_button = Button(frame, text='Remove', width=15, command = self.remove)
+        remove_button.grid(column = 0, row = 2)
+        
+        return frame
 
     # def createButton(self, container, button_info): #button info (name, command) 
     #     frame = Frame(container)
@@ -154,25 +210,7 @@ class App():
         return frame
 
 
-    def createSubmitButton(self, container):
-        frame = Frame(container)
-        
-        quit_button = Button(frame, text='Submit', width=25, command = self.submit)
-        quit_button.grid()
-        
-        return frame
-    
-    def createRemoveButton(self, container):
-        frame = Frame(container)
-        
-        quit_button = Button(frame, text='Remove', width=25, command = self.remove)
-        quit_button.grid()
-        
-        return frame
-
-
     def setValue(self, variable, value):
-        print(variable, value)
         self.rooster_values[variable] = value
 
 
@@ -189,10 +227,8 @@ class App():
         
         ### add to Entry
         self.addToTeam((much, who, what, team))
-        # this_team = self.master.nametowidget("teams."+team)
-        # this_team.configure(state= NORMAL)
-        # this_team.insert(0, "hello")
-        # this_team.configure(state= DISABLED)
+        
+
     def remove(self):
         for value in self.rooster_values.values():
             if value is None:
@@ -207,6 +243,7 @@ class App():
         ### add to Entry
         self.removeFromTeam((much, who, what, team))
     
+    
     def addToTeam(self, rooster): #(1, Hero, Sword, 'red')
         much, who, what, team = rooster
         current_team = self.teams[team]
@@ -217,9 +254,8 @@ class App():
         else:
             current_team[whowhat] = much
         
-        print(self.teams)
-        ###update entry with new team data
         self.updateEntry(team)
+    
     
     def removeFromTeam(self, rooster):
         much, who, what, team = rooster
@@ -234,8 +270,9 @@ class App():
         else:
             return None
         
-        print(self.teams)
+        self.updateEntry(team)
     
+
     def updateEntry(self, team):
         #find entry for team
         this_team = self.master.nametowidget("teams."+team)
@@ -254,6 +291,7 @@ class App():
         this_team.configure(state= DISABLED)
         #print whole rooster
         pass
+
 
 if __name__ == "__main__":
     

@@ -14,7 +14,7 @@ class App():
         
         self.rooster_values = {}
         #self.teams = ['team1', 'team2']
-        self.teams = {}
+        self.teams = {'team1' : {}, 'team2' : {}}
 
         #lineup view
         self.teams_frame = self.createTeamsFrame(self.master)
@@ -34,9 +34,6 @@ class App():
         #quit app
         self.quit_button = self.createQuitButton(self.master)
         self.quit_button.grid(column = 2, row = 2)
-        
-        self.addTeam()
-        self.addTeam()
         
         self.master.mainloop()
 
@@ -60,7 +57,6 @@ class App():
         #need to update frame, not yet implemented
         new_team = 'team'+ str(len(self.teams)+1)
         self.teams[new_team] = {}
-        print(self.teams)
         
         #self.createTeamsFrame(self.master)
         #self.createRoosterFrame(self.master)
@@ -103,10 +99,14 @@ class App():
         self.quit_button = self.createQuitButton(self.master)
         self.quit_button.grid(column = 2, row = 2)
         
+        for team in self.teams.keys():
+            self.updateEntry(team)
+        
     
     def removeTeam(self):
-        self.teams.remove(self.teams[-1])
-        self.createTeamsFrame(self.master)
+        team = list(self.teams)[-1]
+        self.teams.pop(team)
+        self.update()
         #print(self.teams)
     
     
@@ -172,7 +172,7 @@ class App():
         teams_button.grid()
         rows +=1
         
-        teams_button = Button(self.team_checkbox_frame, text='del team', width=10, background= 'lightgrey', command=self.removeTeam, state= DISABLED)
+        teams_button = Button(self.team_checkbox_frame, text='del team', width=10, background= 'lightgrey', command=self.removeTeam)
         teams_button.grid()
         rows +=1
 

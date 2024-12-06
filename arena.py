@@ -6,7 +6,7 @@ class Arena():
     
     def __init__(self) -> None:
         self._teams = {}
-
+        
 
     def getTeams(self) -> dict:
         return self._teams
@@ -27,26 +27,21 @@ class Arena():
     def removeUnit(self, defeted_fighter):
         teams = self.getTeams().copy()
         
-        
         for team_name, team in teams.items():
             for fighter in team:
                 if fighter is defeted_fighter:
                     self._teams[team_name].remove(defeted_fighter)
-                    #print(team_name, ' lost a fighter')
 
             if len(team) == 0:
                 self.removeTeam(team_name)
 
 
     def startFight(self):
-        # self.setTeams(teams)
         turn_counter = 0
-        
         while len(self.getTeams()) > 1:
-            #print('turn ', turn_counter)
             turn_counter+=1
             self.takeRound()
-
+        
         return list(self.getTeams())[0], turn_counter
 
 
@@ -114,6 +109,10 @@ class Arena():
         
         impact = fighter.attack(weapon, target) #bool
         
+        #print('teams', self.getTeams())
         if impact == True:
             self.fighterState(target)
-    
+
+if __name__ == "__main__":
+    pass
+    #{'team1': Human(), 'team2': Human()}

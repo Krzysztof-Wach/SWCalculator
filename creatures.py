@@ -4,49 +4,31 @@ from weapons import *
 
 class Bestiary():
     
-    items = []
-    
-    def __init__(self) -> None:
-        
-        for i in [Humanoid(), Human(), Hero()]:
-            self.addItem(i)
+    creatures = []
     
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(Bestiary, cls).__new__(cls)
         return cls.instance
     
-    def getItems(self):
-        return self.items
-    
-    def addItem(self, item):
-        items_names = []
-        
-        for i in self.items:
-            items_names.append(i.getName())
-        if item.getName() not in items_names:
-            self.items.append(item)
+    def addCreature(self, creature):
+        if creature not in self.creatures:
+            self.creatures.append(creature)
 
-    
-    def deleteItem(self, item):
-        for i in self.items:
-            if i.getName() == item.getName():
-                self.items.remove(i)
-                break
+    def getCreatures(self):
+        return self.creatures
 
 class Creature():
 
+
     def __init__(self):
         # bestiariusz.append[self.__class__]
-        #Bestiary().addItem(self.__class__)
-        self._name = "Creature"
-        self.hero = False
-        self._stats = {'spi':4, 'int':4, 'str':4, 'vig':4, 'agi':4}
+        Bestiary().addCreature(self.__class__)
+        self.name = "Creature"
+        self._stats = {'spirit':4, 'int':4, 'strength':4, 'vigor':4, 'agility':4}
         self._team = None
         self.deriveStats()
 
-    def getName(self):
-        return self._name
 
     def getStat(self, stat):
         return self._stats[stat]    
@@ -58,13 +40,11 @@ class Creature():
     
     def getTeam(self):
         return self._team
-
-    def getHero(self):
-        return self.hero
+    
     
     def setStat(self, stat, new_value):
         self._stats[stat] = new_value
-        if stat == "fighting" or stat == "vig":
+        if stat == "fighting" or stat == "vigor":
             self.deriveStats()
 
 
@@ -79,7 +59,7 @@ class Creature():
         else:
             self._stats["parry"] = 2
         
-        self._stats["toughness"] = int(self._stats['vig']/2 +2)
+        self._stats["toughness"] = int(self._stats['vigor']/2 +2)
 
 
     def testStat(self, stat):
@@ -98,7 +78,7 @@ class Humanoid(Creature):
     def __init__(self):
         super().__init__()
         
-        self._name = "Humanoid"
+        self.name = "Humanoid"
         
         self._health = 1
         self._weapons = []
@@ -116,8 +96,6 @@ class Humanoid(Creature):
             
         self.deriveStats()
 
-    def getName(self):
-        return self._name
 
     def getHealth(self) -> int:
         return self._health
@@ -134,13 +112,6 @@ class Humanoid(Creature):
     def getAlive(self) -> bool:
         return self._isAlive
     
-    
-    def getWeapons(self):
-        return self._weapons
-    
-    def setName(self, name):
-        self._name = name
-        
     
     def setHealth(self, health):
         self._health = int(health)
@@ -207,7 +178,7 @@ class Humanoid(Creature):
         damage = weapon.doDamage(raises)
         
         if weapon_type == "melee":
-                damage += RollMachine().roll(self.getStat("str"))
+                damage += RollMachine().roll(self.getStat("strength"))
             
         return damage
 
@@ -239,7 +210,7 @@ class Humanoid(Creature):
     
     def reactivate(self):
         
-        result = self.testStat('spi')
+        result = self.testStat('spirit')
         raises = RollMachine().calculateRises(result, 4)
         
         if result >= 4:
@@ -252,13 +223,13 @@ class Humanoid(Creature):
 
 
 class Human(Humanoid):
-    #_stats = {'spi':6, 'int':6, 'str:6, 'vig':6, 'agi':6}
+    #_stats = {'spirit':6, 'int':6, 'strength':6, 'vigor':6, 'agility':6}
     
     
     def __init__(self):
         super().__init__()
 
-        self._name = "Human"
+        self.name = "Human"
 
         for stat in self._stats:
             self.setStat(stat, 6) 
@@ -275,8 +246,7 @@ class Hero(Humanoid):
     def __init__(self):
         super().__init__()
         
-        self._name = "Hero"
-        self.hero = True
+        self.name = "Hero"
         
         self.setHealth(3)
         

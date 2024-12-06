@@ -40,6 +40,7 @@ class Creature():
         # bestiariusz.append[self.__class__]
         #Bestiary().addItem(self.__class__)
         self._name = "Creature"
+        self.hero = False
         self._stats = {'spi':4, 'int':4, 'str':4, 'vig':4, 'agi':4}
         self._team = None
         self.deriveStats()
@@ -57,7 +58,9 @@ class Creature():
     
     def getTeam(self):
         return self._team
-    
+
+    def getHero(self):
+        return self.hero
     
     def setStat(self, stat, new_value):
         self._stats[stat] = new_value
@@ -273,6 +276,7 @@ class Hero(Humanoid):
         super().__init__()
         
         self._name = "Hero"
+        self.hero = True
         
         self.setHealth(3)
         

@@ -55,16 +55,24 @@ class App():
     
     
     def addTeam(self):
-        new_team = 'team'+ str(len(self.teams)+1)
-        self.teams[new_team] = {}
-        self.createTeamsFrame(self.master)
+
+        for team_number in range(1, len(self.teams.keys())+1):
+            team = 'team' + str(team_number)
+            if team not in self.teams.keys():
+                self.teams[team] = {}
+                break
+            else:
+                team = 'team' + str(team_number+1)
+                self.teams[team] = {}
+        #self.createTeamsFrame(self.master)
         
         self.update()
         
     def removeTeam(self): #delete selected
         #source = self.sources['team']
         item = self.rooster_values['teams']
-        self.teams.pop(item)
+        if len(self.teams.keys()) != 1:
+            self.teams.pop(item)
         
         self.update()
 
@@ -306,3 +314,14 @@ if __name__ == "__main__":
     
     
     app = App()
+    
+    
+    #whatelsetodo
+    #-fix deleting teams DONE
+    #-create presets for whole teams?/configurations?
+    #-get hero option in creature creator DONE
+    #-check/do wounds penalty !
+    #-split fight menu single || serialize
+    #-make entry longer with more text
+    #-streamline creators (presets/updates/)
+    #-combat log

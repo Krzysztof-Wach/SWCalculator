@@ -46,6 +46,13 @@ class CreatureCreator(Creator):
         name_entry.grid(column = 1, row = rows)
         rows +=1
         
+        #is hero? 1d6, wounds
+        hero_label = Label(frame, text='Hero')
+        hero_label.grid(column=0, row = rows)
+        hero_checkbox = Checkbutton(frame, name = 'hero')
+        hero_checkbox.grid(column = 1, row= rows, sticky= W)
+        rows+=1
+                
         #stats #make seperate frame?
         main_label = Label(frame, text = "Stats")
         main_label.grid(column = 0, row = rows, columnspan= 2)
@@ -105,6 +112,7 @@ class CreatureCreator(Creator):
     def getStats(self):
         
         name = self.master.nametowidget(".setup.name").get()
+        hero = self.master.nametowidget(".setup.hero").get()
         
         #self.stats = {'spirit':4, 'int':4, 'strength':4, 'vigor':4, 'agility':4}
         for stat, value in self.stats.items():
@@ -117,8 +125,16 @@ class CreatureCreator(Creator):
             self.skills[skill] = skill_val
         
         #which creature? is hero?
-        new_creature = Humanoid()
+        if hero == 0:
+            new_creature = Humanoid()
+        elif hero == 1:
+            new_creature = Hero()
+        else:
+            print('something wrong with hero checkup, defaulting to normal creature')
+            new_creature = Humanoid()
+        
         new_creature.setName(name)
+            
         for stat, value in self.stats.items():
             new_creature.setStat(stat, value)
         
@@ -159,11 +175,20 @@ class CreatureCreator(Creator):
 
     def setPreset(self, item):
         name = item.getName()
+        hero = item.getHero()
         creature_stats = item.getAllStats()
+        
+        
         
         name_widget = self.master.nametowidget(".setup.name")
         name_widget.delete(0, END)
         name_widget.insert(0, name)
+        
+        hero_widget = self.master.nametowidget(".setup.hero")
+        if hero == False:
+            hero_widget.deselect()
+        elif hero == True:
+            hero_widget.select()
         
         ###transfer stats
         for item, value in creature_stats.items():

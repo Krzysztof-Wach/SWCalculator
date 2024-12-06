@@ -24,7 +24,3 @@ class RollMachine():
             raises = 0
         
         return raises
-    
-
-if __name__ == "__main__":
-    print(RollMachine().roll(20))

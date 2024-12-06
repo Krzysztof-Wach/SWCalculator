@@ -5,12 +5,14 @@ import copy
 class ArenaManager():
     
     #get different handlers for it
-    _roster = [Humanoid, Human, Hero]
-    _armory = [Unarmed, Pistol, Shotgun, Sword]
     
     
     def __init__(self) -> None:
         self._teams = {}
+        
+        self._roster = Bestiary().getItems()
+        self._armory = Armory().getItems()
+        
         
         
     def getTeams(self) -> dict:
@@ -27,24 +29,33 @@ class ArenaManager():
         self._teams[team].append(unit)
     
     
-    def createFighter(self, type = Human, weapon = Unarmed):
-
-        if type in self._roster:
-            fighter = type()
+    def createFighter(self, creature, weapon):
+        self._roster = Bestiary().getItems()
+        self._armory = Armory().getItems()
+        
+        #validation. make seperate?
+        creature_names = []
+        weapon_names = []
+        for item in self._roster:
+            creature_names.append(item.getName())
+        for item in self._armory:
+            weapon_names.append(item.getName())
+        
+        if creature.getName() in creature_names:
+            fighter = copy.deepcopy(creature)
+            
         else:
-            print('bad fighter type')
-            fighter = Human()
-
-        if weapon in self._armory:
+            print('bad fighter')
+        
+        if weapon.getName() in weapon_names:
             fighter.addWeapon(weapon)
         else:
-            print('bad weapon type')
-            fighter.addWeapon(Unarmed)
+            print('bad weapon')
         
         return fighter
     
     
-    def assignFighters(self, quantity, fighters, weapons, team):
+    def assignFighters(self, quantity, fighters, weapons, team): #rooster
         self.addTeam(team)
         
         for unit in range(0, quantity):
@@ -56,8 +67,6 @@ class ArenaManager():
         teams = copy.deepcopy(self.getTeams()) #100% sure there is non-library way...
         arena = Arena()
         arena.setTeams(teams)
-        
-        #teams = self.getTeams().copy()
         winner, turns = arena.startFight()
         
         return winner, turns
@@ -72,7 +81,6 @@ class ArenaManager():
         
         for fight in range(0, fightsNumber):
 
-            
             winner, turns = self.startFight()
             winnings[winner] += 1
         
@@ -90,3 +98,19 @@ class ArenaManager():
             winnings[team] = str((wins/num_rounds)*100) + '%'
         
         return winnings
+
+
+if __name__ == "__main__":
+    roll = RollMachine()
+
+    manager = ArenaManager()
+    #quantity, fighters, weapon, team
+    manager.assignFighters(1, Hero(), Sword(), 'red')
+
+    manager.assignFighters(1, Human(), Sword(), 'blue')
+
+    hund_fights = manager.serializeFight(10)
+    proc_fights = manager.winningProcent(hund_fights)
+    
+    print(hund_fights)
+    print(proc_fights)

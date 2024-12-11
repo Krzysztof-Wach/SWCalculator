@@ -66,6 +66,7 @@ class ArenaManager():
     def startFight(self):
         teams = copy.deepcopy(self.getTeams()) #100% sure there is non-library way...
         arena = Arena()
+        arena.combatLog("fight", "log.txt")
         arena.setTeams(teams)
         winner, turns = arena.startFight()
         
@@ -75,12 +76,14 @@ class ArenaManager():
     def serializeFight(self, fightsNumber):
         winnings = {}
         
+        Arena().combatLog("start new", "log.txt")
+        
         #set the book
         for team in self.getTeams():
             winnings[team] = 0
         
         for fight in range(0, fightsNumber):
-
+            Arena().combatLog("count fight", fight+1)
             winner, turns = self.startFight()
             winnings[winner] += 1
         

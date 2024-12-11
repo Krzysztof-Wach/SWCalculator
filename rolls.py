@@ -17,7 +17,7 @@ class RollMachine():
 
 
     #raises are dices buissness, right?
-    def calculateRises(self, result, difficulty) -> int:
+    def calculateRises(self, result, difficulty = 0) -> int:
         
         raises = math.floor( (result - difficulty) /4)
         if raises < 0:

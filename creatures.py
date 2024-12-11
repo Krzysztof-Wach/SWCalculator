@@ -41,6 +41,8 @@ class Creature():
         #Bestiary().addItem(self.__class__)
         self._name = "Creature"
         self.hero = False
+        self._health = 1
+        self._max_health = self._health
         self._stats = {'spi':4, 'int':4, 'str':4, 'vig':4, 'agi':4}
         self._team = None
         self.deriveStats()
@@ -49,7 +51,13 @@ class Creature():
         return self._name
 
     def getStat(self, stat):
-        return self._stats[stat]    
+        return self._stats[stat]
+    
+    def getHealth(self) -> int:
+        return self._health
+    
+    def getMaxHealth(self) -> int:
+        return self._max_health
     
     
     def getAllStats(self):
@@ -66,6 +74,15 @@ class Creature():
         self._stats[stat] = new_value
         if stat == "fighting" or stat == "vig":
             self.deriveStats()
+    
+    def setHealth(self, health):
+        self._health = int(health)
+        
+        if health <= 0:
+            self.setAlive(False)
+    
+    def setMaxHealth(self, health) :
+        self._max_health = health
 
 
     def setTeam(self, team):
@@ -83,11 +100,18 @@ class Creature():
 
 
     def testStat(self, stat):
+        wound_mod = self.getMaxHealth() - self.getHealth()
+        if wound_mod > 3:
+            wound_mod = 3
+        
         if stat in self._stats:
             result = RollMachine().roll(self.getStat(stat))
         else:
             print("improvisation roll")
             result = RollMachine().roll(4) - 2
+            
+            
+        result = result - wound_mod
 
         return result
 
@@ -100,7 +124,7 @@ class Humanoid(Creature):
         
         self._name = "Humanoid"
         
-        self._health = 1
+        
         self._weapons = []
         self._isAlive = True
         self._isActive = True
@@ -119,9 +143,6 @@ class Humanoid(Creature):
     def getName(self):
         return self._name
 
-    def getHealth(self) -> int:
-        return self._health
-    
     
     def getWeapons(self) -> list:
         return self._weapons
@@ -138,15 +159,9 @@ class Humanoid(Creature):
     def getWeapons(self):
         return self._weapons
     
+    
     def setName(self, name):
         self._name = name
-        
-    
-    def setHealth(self, health):
-        self._health = int(health)
-        
-        if health <= 0:
-            self.setAlive(False)
 
 
     def addWeapon(self, weapon):
@@ -162,25 +177,26 @@ class Humanoid(Creature):
         self._isAlive = state
 
 
-    def attack(self, weapon, target) -> bool: #return if the attack caused wounds
+    def attack(self, weapon): #return if the attack caused wounds
         weapon_type = weapon.getType()
         damage = 0
         
-        if weapon_type == 'melee':
+        if weapon_type == 'melee': #switch
             strike_value = self.meleeAttack(weapon)
-            target_defence = target.getStat("parry")
+            #target_defence = target.getStat("parry")
         elif weapon_type == 'ranged':
             strike_value = self.rangedAttack(weapon)
-            target_defence = 4
+            #target_defence = 4
         #else, improvise?
         
         #maybe should delegate target.takedamage() to the arena?
-        if strike_value > target_defence:
-            damage = self.doDamage( strike_value, target_defence, weapon)
-            target.takeDamage(damage)
-            return True
-        else:
-            return False
+        # if strike_value > target_defence:
+        #     damage = self.doDamage( strike_value, target_defence, weapon)
+        #     target.takeDamage(damage)
+        #     return True
+        # else:
+        #     return False
+        return strike_value
         
     
     
@@ -200,10 +216,10 @@ class Humanoid(Creature):
         return strike_value
 
 
-    def doDamage(self, strike_value, targets_defence, weapon) -> int:
+    def doDamage(self, weapon, raises) -> int: #def doDamage(self, strike_value, targets_defence, weapon) -> int:
         weapon_type = weapon.getType()
         
-        raises = RollMachine().calculateRises(strike_value, targets_defence)
+        # raises = RollMachine().calculateRises(strike_value, targets_defence)
         damage = weapon.doDamage(raises)
         
         if weapon_type == "melee":
@@ -246,9 +262,9 @@ class Humanoid(Creature):
             self.setActive(True)
         
         if raises > 0:
-            return True
+            return (True, result)
         else:
-            return False
+            return (False, result)
 
 
 class Human(Humanoid):
@@ -264,7 +280,7 @@ class Human(Humanoid):
             self.setStat(stat, 6) 
 
         #add stats
-        _skills = {'fighting': 6, 'shooting':6}
+        _skills = {'fighting': 2, 'shooting':6}
         for key in _skills:
             self.setStat(key, _skills[key])
 

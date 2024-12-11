@@ -1,0 +1,167 @@
+
+ ===========================
+		FIGHT 1
+ ==========================
+red redHerSwo1 redHerSwo2 blue blueHerSwo1 blueHerSwo2 
+ 
+ round 1 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (7)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	blueHerSwo2 attacking redHerSwo1 with Sword (8)
+ 	 	dealing 3 damage, causing no wounds
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (7)
+ 	 	dealing 3 damage, causing no wounds
+ 	blueHerSwo1 is stunned
+ 	blueHerSwo1 is recovering (5) and skipping
+ 
+ round 2 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (7)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (5)
+ 	 	dealing 3 damage, causing no wounds
+ 	blueHerSwo2 is stunned
+ 	blueHerSwo2 is recovering (6) and skipping
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (5)
+ 	 	dealing 5 damage, causing 0 wounds
+ 
+ round 3 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (7)
+ 	 	dealing 3 damage, causing no wounds
+ 	blueHerSwo1 attacking redHerSwo1 with Sword (6)
+ 	 	dealing 3 damage, causing no wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (8)
+ 	 	dealing 4 damage, causing no wounds
+ 	redHerSwo2 is stunned
+ 	redHerSwo2 is recovering (4) and skipping
+ 
+ round 4 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (6)
+ 	 	dealing 2 damage, causing no wounds
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (7)
+ 	 	dealing 3 damage, causing no wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (6)
+ 	 	dealing 2 damage, causing no wounds
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (11)
+ 	 	dealing 4 damage, causing no wounds
+ 
+ round 5 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (6)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (8)
+ 	 	dealing 1 damage, causing no wounds
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (6)
+ 	 	dealing 2 damage, causing no wounds
+ 	blueHerSwo2 is stunned
+ 	blueHerSwo2 is recovering (7) and skipping
+ 
+ round 6 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (5)
+ 	 	dealing 11 damage, causing 1 wounds
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (3)
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (13)
+ 	 	dealing 2 damage, causing no wounds
+ 	blueHerSwo1 is stunned
+ 	blueHerSwo1 is recovering (5) and skipping
+ 
+ round 7 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo1 attacking blueHerSwo2 with Sword (9)
+ 	 	dealing 4 damage, causing no wounds
+ 	blueHerSwo1 attacking redHerSwo1 with Sword (5)
+ 	 	dealing 3 damage, causing no wounds
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (3)
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (11)
+ 	 	dealing 4 damage, causing no wounds
+ 
+ round 8 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo2 attacking redHerSwo1 with Sword (3)
+ 	blueHerSwo1 attacking redHerSwo1 with Sword (5)
+ 	 	dealing 2 damage, causing no wounds
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (7)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (6)
+ 	 	dealing 3 damage, causing no wounds
+ 
+ round 9 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo1 is stunned
+ 	blueHerSwo1 is recovering (6) and skipping
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (6)
+ 	 	dealing 1 damage, causing no wounds
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (7)
+ 	 	dealing 3 damage, causing no wounds
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (12)
+ 	 	dealing 2 damage, causing no wounds
+ 
+ round 10 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo2 attacking redHerSwo1 with Sword (4)
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (5)
+ 	 	dealing 2 damage, causing no wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (4)
+ 	blueHerSwo1 attacking redHerSwo1 with Sword (6)
+ 	 	dealing 8 damage, causing 0 wounds
+ 
+ round 11 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (4)
+ 	redHerSwo1 is stunned
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (4)
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (3)
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (7)
+ 	 	dealing 9 damage, causing 1 wounds
+ 
+ round 12 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo1 is stunned
+ 	blueHerSwo1 is recovering (4) and skipping
+ 	blueHerSwo2 attacking redHerSwo1 with Sword (9)
+ 	 	dealing 10 damage, causing 2 wounds
+ 	redHerSwo1 is stunned
+ 	redHerSwo1 is recovering (4) and skipping
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (12)
+ 	 	dealing 5 damage, causing 0 wounds
+ 
+ round 13 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (8)
+ 	 	dealing 3 damage, causing no wounds
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (7)
+ 	 	dealing 4 damage, causing no wounds
+ 	blueHerSwo1 is stunned
+ 	blueHerSwo1 is recovering (8) end acting immidieately
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (4)
+ 	blueHerSwo2 attacking redHerSwo2 with Sword (13)
+ 	 	dealing 6 damage, causing 0 wounds
+ 
+ round 14 || red(2 remaining), blue(2 remaining), 
+ 	redHerSwo2 is stunned
+ 	redHerSwo2 is recovering (11) end acting immidieately
+ 	redHerSwo2 attacking blueHerSwo2 with Sword (7)
+ 	 	dealing 9 damage, causing 1 wounds
+ 	blueHerSwo2 is stunned
+ 	blueHerSwo2 attacking redHerSwo1 with Sword (6)
+ 	 	dealing 1 damage, causing no wounds
+ 	blueHerSwo1 attacking redHerSwo1 with Sword (3)
+ 	redHerSwo1 attacking blueHerSwo2 with Sword (8)
+ 	 	dealing 11 damage, causing 2 wounds
+ 
+ round 15 || red(2 remaining), blue(2 remaining), 
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (8)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	blueHerSwo2 is dead
+ 	redHerSwo2 is stunned
+ 	redHerSwo2 is recovering (7) and skipping
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (5)
+ 	 	dealing 2 damage, causing no wounds
+ 
+ round 16 || red(2 remaining), blue(1 remaining), 
+ 	blueHerSwo1 attacking redHerSwo2 with Sword (5)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	redHerSwo2 is stunned
+ 	redHerSwo2 is recovering (10) end acting immidieately
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (7)
+ 	 	dealing 5 damage, causing 0 wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (3)
+ 
+ round 17 || red(2 remaining), blue(1 remaining), 
+ 	redHerSwo2 attacking blueHerSwo1 with Sword (6)
+ 	 	dealing 22 damage, causing 5 wounds
+ 	redHerSwo1 attacking blueHerSwo1 with Sword (3)
+ 	blueHerSwo1 is dead
+red won	 remains: redHerSwo1 redHerSwo2 
+

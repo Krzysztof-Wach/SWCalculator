@@ -27,7 +27,6 @@ class Armory():
                 self.items.remove(i)
                 break
             
-
     def getItems(self):
         return self.items
 
@@ -44,14 +43,11 @@ class Weapon():
     def getName(self) -> str:
         return self._name
     
-    
     def getType(self) -> str:
         return self._type
     
-    
     def getAttackMod(self) -> int:
         return self._attack_mod
-    
     
     def getDamageProfile(self) -> tuple:
         return self._damage_profile

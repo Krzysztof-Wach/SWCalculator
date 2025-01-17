@@ -68,6 +68,7 @@ class App():
         
         self.update()
         
+        
     def removeTeam(self): #delete selected
         #source = self.sources['team']
         item = self.rooster_values['teams']
@@ -299,6 +300,7 @@ class App():
                 creator = WeaponCreator(self)
         self.update()
 
+
     def delItem(self, kind):
         source = self.sources[kind]
         item = self.rooster_values[kind]
@@ -310,11 +312,8 @@ class App():
 
 
 if __name__ == "__main__":
-
-    
     
     app = App()
-    
     
     #whatelsetodo
     #-fix deleting teams DONE

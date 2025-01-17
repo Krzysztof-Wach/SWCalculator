@@ -18,6 +18,8 @@ class RollMachine():
 
     #raises are dices buissness, right?
     def calculateRises(self, result, difficulty) -> int:
+        #the basic success is not a raise
+        result= result - 4
         
         raises = math.floor( (result - difficulty) /4)
         if raises < 0:
